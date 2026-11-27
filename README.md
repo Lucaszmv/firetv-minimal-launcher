@@ -9,6 +9,9 @@ Código aberto. Baseado no [Free My TV](https://github.com/simbasjungles/free-my
 
 [O que você ganha](#-o-que-você-ganha) · [Instalação](#-instalação) · [Scripts ADB](#-scripts-adb-por-aparelho) · [Compilar](#-como-compilar-do-zero) · [Créditos](#-créditos)
 
+
+<img src=".github/preview.webp" width="880" alt="FireTV Minimal Launcher">
+
 </div>
 
 ---
