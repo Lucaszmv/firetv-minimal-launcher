@@ -1,0 +1,8 @@
+{
+ "screen": "com.amazon.ftv.screensaver/.app.services.ScreensaverService",
+ "disabled": [
+  "com.amazon.shoptv.client",
+  "com.android.nfc"
+ ],
+ "home": "com.amazon.tv.launcher/.ui.HomeActivity_vNext"
+}

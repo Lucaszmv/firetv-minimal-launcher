@@ -1,0 +1,12 @@
+scripts/.device_addr
+scripts/fmtv_ota_baseline.json
+scripts/pm_list_before.txt
+__pycache__/
+*.pyc
+tools/
+build_temp/
+
+# Sessões de ferramentas (logs/árvores de página) e cache local do plugin
+.playwright-mcp/
+.codecraft-agy/
+nul

@@ -1,0 +1,17 @@
+# Your settings and signing key stay on your machine
+config.properties
+config.*.properties
+!config.example.properties
+*.keystore
+*.idsig
+
+# Build output
+out/
+*.apk
+*.ipk
+*.wgt
+__pycache__/
+
+# macOS
+.DS_Store
+tools/.i18n-cache.json
