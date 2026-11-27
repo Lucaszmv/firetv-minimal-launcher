@@ -1,52 +1,73 @@
+<div align="center">
+
 # 📺 FireTV Minimal Launcher
 
-Launcher minimalista para **Fire TV Stick**, baseado no projeto **[Free My TV](https://github.com/simbasjungles/free-my-tv)** (`simbasjungles`), adaptado para remover bloat da Amazon, exibir recomendações do TMDB, prateleira de apps estilo tvOS e screensaver "Dream".
+**Uma tela inicial rápida, limpa e sem anúncios para o seu Fire TV Stick.**
+
+Prateleira de apps estilo tvOS, recomendações do TMDB, screensaver "Dream" e debloat automático.<br>
+Código aberto. Baseado no [Free My TV](https://github.com/simbasjungles/free-my-tv). Um comando para reverter tudo.
+
+[O que você ganha](#-o-que-você-ganha) · [Instalação](#-instalação) · [Scripts ADB](#-scripts-adb-por-aparelho) · [Compilar](#-como-compilar-do-zero) · [Créditos](#-créditos)
+
+</div>
 
 ---
 
-## ✨ Recursos
+## ✨ O que você ganha
 
-- **Launcher estilo tvOS:** prateleira de aplicativos com ícones por marca e foco destacado.
-- **Recomendações TMDB:** rail de filmes/séries e card principal 16:9 com sinopse.
-- **Screensaver "Dream":** fundo com blur suave do card focado, relógio e clima.
-- **Debloat & Home Trap:** scripts Python via ADB para desativar pacotes Amazon desnecessários e redirecionar o botão Home para o launcher.
-- **Bloqueio de OTA (opcional):** scripts auxiliares para bloquear atualizações automáticas via DNS/NetGuard.
+- **Zero anúncios.** Sem banners patrocinados, sem fileiras promovidas e sem autoplay da Amazon.
+- **Seus apps em destaque.** Uma prateleira estilo tvOS com os aplicativos de streaming que você realmente usa, com foco destacado e ícones por marca.
+- **Recomendações do TMDB, não anúncios.** Rail de filmes e séries em alta com card principal 16:9 e sinopse, usando sua própria chave gratuita da API do TMDB.
+- **Screensaver "Dream".** Fundo com blur suave do card focado, relógio e previsão do tempo.
+- **Botão Home sob controle (Home Trap).** Pressionar Home no controle sempre traz você de volta para o seu launcher, sem voltar para a tela poluída da Amazon.
+- **Debloat + Rollback em 1 comando.** Desativa pacotes Amazon desnecessários na instalação e permite desfazer tudo a qualquer momento com `--revert`.
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## 🚀 Instalação
 
-```text
-├── free-my-tv/               # App Android (launcher + screensaver)
-│   ├── app/src/io/freemytv/  # Código-fonte Java
-│   ├── tools/                # Scripts Python para geração de assets
-│   ├── build.sh              # Build sem Gradle (Linux/macOS)
-│   ├── build_windows.py      # Pipeline de build no Windows
-│   ├── config.example.properties  # Modelo de configuração (TMDB key, região, cidade)
-│   └── LICENSE               # MIT
-└── scripts/                  # Utilitários ADB em Python para Fire TV
-    ├── common_adb.py         # Wrapper de conexão/serial do ADB
-    ├── dev.py                # Descoberta do Fire TV na rede local
-    ├── fire_install.py       # Instalação, debloat e Home Trap (+ --revert)
-    ├── fire_debloat.py       # Lista de pacotes Amazon para desativar
-    └── fire_dns_block.py     # Bloqueio de domínios OTA
+### Pré-requisitos
+
+- **Fire TV Stick** com **Depuração ADB** ativada (*Configurações → Meu Fire TV → Opções do desenvolvedor*).
+- **Python 3.10+** e **ADB** instalados no computador.
+- O APK compilado em `free-my-tv/FreeMyTV.apk` (veja [Como compilar do zero](#-como-compilar-do-zero)).
+
+### Passo a passo
+
+1. Descubra o IP do seu Fire TV na rede local (ou use `python scripts/dev.py`).
+2. Defina o IP do aparelho e rode o instalador:
+
+```bash
+# Windows (PowerShell)
+$env:FMTV_IP="192.168.1.50"
+python scripts/fire_install.py
+
+# Linux / macOS
+FMTV_IP=192.168.1.50 python3 scripts/fire_install.py
+```
+
+Para reverter tudo e restaurar o launcher original da Amazon:
+
+```bash
+python scripts/fire_install.py --revert
 ```
 
 ---
 
-## ⚠️ Aviso importante sobre os `scripts/`
+## ⚠️ Scripts ADB (por aparelho)
 
-Os scripts em `scripts/` foram escritos para o meu ambiente e modelo de Fire TV Stick. Antes de rodar no seu aparelho, ajuste:
+Os scripts em `scripts/` foram feitos para o meu ambiente e modelo de Fire TV Stick. Antes de executar no seu dispositivo, ajuste:
 
-1. **IP / Serial ADB:** defina a variável de ambiente `FMTV_IP` (ou passe o IP do seu Fire TV na rede local) e confira o caminho do `adb` em `scripts/common_adb.py`.
-2. **Lista de pacotes (`scripts/fire_debloat.py`):** versões diferentes do Fire OS possuem pacotes diferentes; revise a lista antes de aplicar o debloat (use `--revert` no `fire_install.py` se precisar reverter).
+- **IP / Serial ADB (`FMTV_IP` / `scripts/common_adb.py`):** aponte para o IP do seu Fire TV e confira o caminho do executável `adb`.
+- **Lista de pacotes (`scripts/fire_debloat.py`):** cada versão do Fire OS possui pacotes próprios; revise a lista antes de aplicar o debloat.
+- **Bloqueio de OTA (opcional):** `scripts/fire_dns_block.py` e `scripts/fire_netguard.py` auxiliam no bloqueio de atualizações automáticas da Amazon.
 
 ---
 
-## 🚀 Como compilar e configurar
+## 🛠️ Como compilar do zero
 
 1. Copie `free-my-tv/config.example.properties` para `free-my-tv/config.properties` e preencha sua chave gratuita da API do TMDB, região e cidade.
-2. Gere sua keystore (`freemytv.keystore`) e execute o build:
+2. Gere sua keystore (`free-my-tv/freemytv.keystore`) e execute o build sem Gradle:
 
 ```bash
 # Windows
@@ -55,3 +76,9 @@ python free-my-tv/build_windows.py
 # Linux / macOS
 bash free-my-tv/build.sh
 ```
+
+---
+
+## 🙏 Créditos
+
+Baseado e inspirado no projeto **[Free My TV](https://github.com/simbasjungles/free-my-tv)** (`simbasjungles`), adaptado e simplificado especificamente para Fire TV Stick.
